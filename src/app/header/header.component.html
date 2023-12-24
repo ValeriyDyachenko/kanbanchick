@@ -1,0 +1,18 @@
+<div class="fixed top-0 bg-opacity-40 bg-gray-300 backdrop-filter backdrop-blur-md shadow-md z-50 h-18 w-full flex items-center p-4">
+  <app-add-board-button
+    *ngIf="navigationService.getIsHeaderAddBoardButtonVisible() | async"
+    (addBoard)="kanbanService.addBoard()">
+
+  </app-add-board-button>
+
+  <button
+    *ngIf="navigationService.getIsHeaderBackButtonVisible() | async"
+    (click)="navigationService.toPreviousPage()"
+    class="h-12 flex items-center justify-center p-5 bg-gray-200 rounded-sm shadow transition-colors duration-300 hover:bg-gray-300"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-3">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+    </svg>
+    Back
+  </button>
+</div>
