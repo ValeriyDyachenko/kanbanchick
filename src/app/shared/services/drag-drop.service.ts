@@ -5,7 +5,7 @@ import {
 } from '@angular/cdk/drag-drop';
 import { Injectable } from '@angular/core';
 import { catchError, finalize, map, Observable, of } from 'rxjs';
-import { Board, Column, KanbanService } from './kanban.service';
+import { Board, Column, KanbanService } from '~/shared/services/kanban.service';
 
 export interface ItemsInColumnDragDrop {
   column: Column;

@@ -1,7 +1,15 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { Observable } from 'rxjs';
-import { ColumnsInBoardDragDrop, DragDropService } from '../drag-drop.service';
-import { KanbanService } from '../kanban.service';
+import {
+  ColumnsInBoardDragDrop,
+  DragDropService,
+} from '~/shared/services/drag-drop.service';
+import { KanbanService } from '~/shared/services/kanban.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

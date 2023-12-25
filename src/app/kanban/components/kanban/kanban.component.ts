@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { DragDropService } from '../drag-drop.service';
-import { KanbanService } from '../kanban.service';
-import type { Board } from '../kanban.service';
+import { DragDropService } from '~/shared/services/drag-drop.service';
+import { KanbanService } from '~/shared/services/kanban.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

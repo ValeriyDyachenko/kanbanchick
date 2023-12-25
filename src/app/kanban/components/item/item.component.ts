@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { KanbanService } from '../kanban.service';
+import { KanbanService } from '~/shared/services/kanban.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

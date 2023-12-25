@@ -39,6 +39,11 @@
           "groups": ["builtin", "external", "parent", "sibling", "index"],
           "pathGroups": [
             {
+              "pattern": "~/**",
+              "group": "internal",
+              "position": "before"
+            },
+            {
               "pattern": "./*",
               "group": "parent",
               "position": "after"

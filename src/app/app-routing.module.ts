@@ -1,15 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ItemDetailsComponent } from './item-details/item-details.component';
-import { KanbanComponent } from './kanban/kanban.component';
 
 export const BOARD_PATH = 'board';
 export const ITEM_PATH = 'item';
 
 const routes: Routes = [
-  { path: BOARD_PATH, component: KanbanComponent },
-  { path: `${ITEM_PATH}/:id`, component: ItemDetailsComponent },
   { path: '', redirectTo: `/${BOARD_PATH}`, pathMatch: 'full' },
+  {
+    path: BOARD_PATH,
+    loadChildren: () =>
+      import('./kanban/kanban.module').then((m) => m.KanbanModule),
+  },
+  {
+    path: `${ITEM_PATH}/:id`,
+    loadChildren: () =>
+      import('./item-details/item-details.module').then(
+        (m) => m.ItemDetailsModule,
+      ),
+  },
 ];
 
 @NgModule({

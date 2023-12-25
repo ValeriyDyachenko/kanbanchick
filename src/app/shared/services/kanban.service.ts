@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, map } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 
 export interface Kanban {
   boardIds: string[];
@@ -66,7 +66,7 @@ export class KanbanService {
     );
   }
 
-  private saveToLocalStorage(key: string, data: any) {
+  private saveToLocalStorage(key: string, data: unknown) {
     localStorage.setItem(key, JSON.stringify(data));
   }
 
@@ -215,20 +215,6 @@ export class KanbanService {
 
   getBoardIds() {
     return this.kanban$.pipe(map((kanban) => kanban.boardIds));
-  }
-
-  getItemDetailsById(id: string) {
-    return combineLatest([this.itemsSubject, this.itemsDetailsSubject]).pipe(
-      map(([items, details]) => {
-        const item = items.find((i) => i.id === id);
-        const detail = details.find((d) => d.id === id);
-
-        return {
-          title: item?.title || '',
-          details: detail?.details || '',
-        };
-      }),
-    );
   }
 
   patchItem(itemId: string | null, partialData: Partial<Item>) {
