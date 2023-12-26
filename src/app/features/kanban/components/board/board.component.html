@@ -11,9 +11,9 @@
           class="mr-1 ml-1 p-2 rounded bg-gray-200 shadow-inner"
           placeholder="Board Name"
           [(ngModel)]="columnsInBoardDragDrop.board.title"
-          (ngModelChange)="kanbanService.patchBoard(columnsInBoardDragDrop.board.id, {title: $event})"
+          (ngModelChange)="kanbanService.patchBoard( {id: columnsInBoardDragDrop.board.id, title: $event})"
         >
-        <app-add-column-button [boardId]="columnsInBoardDragDrop.board.id" (addColumn)="kanbanService.addColumnToBoard($event)"></app-add-column-button>
+        <app-add-column-button [boardId]="columnsInBoardDragDrop.board.id" (addColumn)="kanbanService.addColumn($event)"></app-add-column-button>
       </div>
       <!--icon for dragging board from kanban component-->
       <app-remove-button class="mr-4 ml-16" (click)="kanbanService.deleteBoard(columnsInBoardDragDrop.board.id)"></app-remove-button>
@@ -24,13 +24,13 @@
       cdkDropList
       cdkDropListOrientation="horizontal"
       (cdkDropListDropped)="dragDropService.drop($event)"
-      [cdkDropListData]="columnsInBoardDragDrop.board.columnIds"
+      [cdkDropListData]="columnsInBoardDragDrop.board.columnsIds"
       [id]="boardId"
       [cdkDropListConnectedTo]="columnsInBoardDragDrop.otherBoardIds"
     >
       <app-column
         cdkDrag
-        *ngFor="let columnId of columnsInBoardDragDrop.board.columnIds"
+        *ngFor="let columnId of columnsInBoardDragDrop.board.columnsIds"
         [columnId]="columnId"
       >
         <div cdkDragHandle>

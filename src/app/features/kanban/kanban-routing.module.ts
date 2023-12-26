@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { KanbanPageComponent } from '~/kanban/pages/kanban-page.component';
+import { KanbanPageComponent } from '~/features/kanban/pages/kanban-page.component';
 
 const routes: Routes = [{ path: '', component: KanbanPageComponent }];
 

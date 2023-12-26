@@ -9,12 +9,12 @@ const routes: Routes = [
   {
     path: BOARD_PATH,
     loadChildren: () =>
-      import('./kanban/kanban.module').then((m) => m.KanbanModule),
+      import('./features/kanban/kanban.module').then((m) => m.KanbanModule),
   },
   {
     path: `${ITEM_PATH}/:id`,
     loadChildren: () =>
-      import('./item-details/item-details.module').then(
+      import('./features/item-details/item-details.module').then(
         (m) => m.ItemDetailsModule,
       ),
   },

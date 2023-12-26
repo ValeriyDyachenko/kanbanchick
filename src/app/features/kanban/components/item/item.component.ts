@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { KanbanService } from '~/shared/services/kanban.service';
+import { map } from 'rxjs';
+import { ApiLocalStorageService } from '~/shared/services/api-local-storage.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -11,7 +12,11 @@ import { KanbanService } from '~/shared/services/kanban.service';
 export class ItemComponent {
   @Input() itemId?: string;
   constructor(
-    public kanbanService: KanbanService,
+    public kanbanService: ApiLocalStorageService,
     public router: Router,
   ) {}
+
+  getItemById(id: string) {
+    return this.kanbanService.items$.pipe(map((items) => items[id]));
+  }
 }

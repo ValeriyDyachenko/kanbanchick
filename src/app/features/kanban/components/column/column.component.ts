@@ -5,11 +5,11 @@ import {
   OnInit,
 } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ApiLocalStorageService } from '~/shared/services/api-local-storage.service';
 import {
   DragDropService,
   ItemsInColumnDragDrop,
 } from '~/shared/services/drag-drop.service';
-import { KanbanService } from '~/shared/services/kanban.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -22,7 +22,7 @@ export class ColumnComponent implements OnInit {
   itemsInsideColumnDragDrop?: Observable<ItemsInColumnDragDrop | null>;
 
   constructor(
-    public kanbanService: KanbanService,
+    public kanbanService: ApiLocalStorageService,
     public dragDropService: DragDropService,
   ) {}
 

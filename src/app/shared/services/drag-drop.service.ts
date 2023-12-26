@@ -5,7 +5,8 @@ import {
 } from '@angular/cdk/drag-drop';
 import { Injectable } from '@angular/core';
 import { catchError, finalize, map, Observable, of } from 'rxjs';
-import { Board, Column, KanbanService } from '~/shared/services/kanban.service';
+import { Board, Column } from '~/api/types';
+import { ApiLocalStorageService } from '~/shared/services/api-local-storage.service';
 
 export interface ItemsInColumnDragDrop {
   column: Column;
@@ -31,7 +32,7 @@ export class DragDropService {
     Observable<ColumnsInBoardDragDrop | null>
   > = new Map();
 
-  constructor(private kanbanService: KanbanService) {}
+  constructor(private api: ApiLocalStorageService) {}
 
   getItemsInsideColumnDragDrop$(
     columnId: string,
@@ -43,15 +44,15 @@ export class DragDropService {
     columnId: string,
   ): Observable<ItemsInColumnDragDrop | null> {
     if (!this.ItemsInColumnDragDropStore.has(columnId)) {
-      const columnDragDrop$ = this.kanbanService.columns$.pipe(
+      const columnDragDrop$ = this.api.columns$.pipe(
         map((columns) => {
-          const column = columns.find((column) => column.id === columnId);
+          const column = columns[columnId];
           if (!column) {
-            throw new Error(`Column with id ${columnId} not found`);
+            throw new Error(`DragDrop: Column with id ${columnId} not found`);
           }
-          const otherColumnIds = columns
-            .filter((column) => column.id !== columnId)
-            .map((column) => column.id);
+          const otherColumnIds = Object.keys(columns).filter(
+            (id) => id !== columnId,
+          );
           return { column, otherColumnIds };
         }),
         catchError((error) => {
@@ -71,11 +72,11 @@ export class DragDropService {
     boardId: string,
   ): Observable<ColumnsInBoardDragDrop | null> {
     if (!this.columnsInBoardDragDropStore.has(boardId)) {
-      const boardDragDrop$ = this.kanbanService.boards$.pipe(
+      const boardDragDrop$ = this.api.boards$.pipe(
         map((boards) => {
           const board = boards[boardId];
           if (!boards[boardId]) {
-            throw new Error(`Board with id ${boardId} not found`);
+            throw new Error(`DragDrop: Board with id ${boardId} not found`);
           }
           const otherBoardIds = Object.values(boards).reduce(
             (ids, board) => (board.id !== boardId ? ids.concat(board.id) : ids),
