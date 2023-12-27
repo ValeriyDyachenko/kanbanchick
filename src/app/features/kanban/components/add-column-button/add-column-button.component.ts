@@ -12,7 +12,7 @@ import {
   templateUrl: './add-column-button.component.html',
 })
 export class AddColumnButtonComponent {
-  @Input() boardId?: string;
+  @Input() boardId!: string;
   @Output() addColumn = new EventEmitter<string>();
 
   onAddColumn() {

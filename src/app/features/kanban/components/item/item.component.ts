@@ -7,10 +7,9 @@ import { ApiLocalStorageService } from '~/shared/services/api-local-storage.serv
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-item',
   templateUrl: './item.component.html',
-  styleUrls: ['./item.component.css'],
 })
 export class ItemComponent {
-  @Input() itemId?: string;
+  @Input() itemId!: string;
   constructor(
     public apiDataService: ApiLocalStorageService,
     public router: Router,

@@ -12,7 +12,7 @@ import {
   templateUrl: './add-item-button.component.html',
 })
 export class AddItemButtonComponent {
-  @Input() columnId?: string;
+  @Input() columnId!: string;
   @Output() addItem = new EventEmitter<string>();
 
   onAddItem() {
