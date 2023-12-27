@@ -1,8 +1,4 @@
-import {
-  CdkDragDrop,
-  moveItemInArray,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,6 +8,7 @@ import {
 import { map, Observable } from 'rxjs';
 import { Column } from '~/api/types';
 import { ApiLocalStorageService } from '~/shared/services/api-local-storage.service';
+import { drop } from '~/utils/drag-drop.utils';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,19 +35,24 @@ export class ColumnComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
-    } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
-    }
+    drop(
+      event,
+      (event) => {
+        this.apiDataService.patchColumn({
+          id: event.container.id,
+          itemsIds: event.container.data,
+        });
+      },
+      (event) => {
+        this.apiDataService.patchColumn({
+          id: event.container.id,
+          itemsIds: event.container.data,
+        });
+        this.apiDataService.patchColumn({
+          id: event.previousContainer.id,
+          itemsIds: event.previousContainer.data,
+        });
+      },
+    );
   }
 }

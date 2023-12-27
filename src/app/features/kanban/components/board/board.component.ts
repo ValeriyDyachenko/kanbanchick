@@ -1,8 +1,4 @@
-import {
-  CdkDragDrop,
-  moveItemInArray,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,6 +8,7 @@ import {
 import { map, Observable } from 'rxjs';
 import { Board } from '~/api/types';
 import { ApiLocalStorageService } from '~/shared/services/api-local-storage.service';
+import { drop } from '~/utils/drag-drop.utils';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,19 +34,24 @@ export class BoardComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
-    } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
-    }
+    drop(
+      event,
+      (event) => {
+        this.apiDataService.patchBoard({
+          id: event.container.id,
+          columnsIds: event.container.data,
+        });
+      },
+      (event) => {
+        this.apiDataService.patchBoard({
+          id: event.container.id,
+          columnsIds: event.container.data,
+        });
+        this.apiDataService.patchBoard({
+          id: event.previousContainer.id,
+          columnsIds: event.previousContainer.data,
+        });
+      },
+    );
   }
 }

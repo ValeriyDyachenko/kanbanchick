@@ -60,9 +60,9 @@ export class ApiLocalStorageService implements Api {
     );
   }
 
-  addBoard = (
+  addBoard(
     board: Board = { id: `board_${uuidv4()}`, columnsIds: [], title: '' },
-  ) => {
+  ) {
     const boards = this.getFromLS<Boards>(BOARDS_LS_KEY) || {};
     boards[board.id] = board;
     this.saveToLS(BOARDS_LS_KEY, boards);
@@ -72,12 +72,12 @@ export class ApiLocalStorageService implements Api {
     const updatedBoardsIds = [...boardsIds, board.id];
     this.saveToLS(BOARDS_IDS_LS_KEY, updatedBoardsIds);
     this.boardsIdsSubject.next(updatedBoardsIds);
-  };
+  }
 
-  addColumn = (
+  addColumn(
     boardId: Board['id'],
     column: Column = { id: `column_${uuidv4()}`, itemsIds: [], title: '' },
-  ) => {
+  ) {
     const board = (this.getFromLS<Boards>(BOARDS_LS_KEY) || {})[boardId];
     if (!board) {
       console.error(`addColumn; board ${boardId} not found`);
@@ -90,12 +90,12 @@ export class ApiLocalStorageService implements Api {
     this.columnsSubject.next(columns);
 
     this.patchBoard({ ...board, columnsIds: [...board.columnsIds, column.id] });
-  };
+  }
 
-  addItem = (
+  addItem(
     columnId: Column['id'],
     item: Item = { id: `item_${uuidv4()}`, title: '' },
-  ) => {
+  ) {
     const column = (this.getFromLS<Columns>(COLUMNS_LS_KEY) || {})[columnId];
     if (!column) {
       console.error(`addItem; column ${columnId} not found`);
@@ -108,15 +108,20 @@ export class ApiLocalStorageService implements Api {
     this.itemsSubject.next(items);
 
     this.patchColumn({ ...column, itemsIds: [...column.itemsIds, item.id] });
-  };
+  }
 
-  addDetails = (details: ItemDetails) => {
+  addDetails(details: ItemDetails) {
     const itemsDetails =
       this.getFromLS<ItemsDetails>(ITEMS_DETAILS_LS_KEY) || {};
     itemsDetails[details.itemId] = details;
     this.saveToLS(ITEMS_DETAILS_LS_KEY, itemsDetails);
     this.itemDetailsSubject.next(details);
-  };
+  }
+
+  patchBordersIds(boardsIds: BoardsIds) {
+    this.saveToLS(BOARDS_IDS_LS_KEY, boardsIds);
+    this.boardsIdsSubject.next(boardsIds);
+  }
 
   patchBoard = (board: Pick<Board, 'id'> & Partial<Board>) => {
     const boards = this.getFromLS<Boards>(BOARDS_LS_KEY) || {};
@@ -129,7 +134,7 @@ export class ApiLocalStorageService implements Api {
     this.boardsSubject.next(boards);
   };
 
-  patchColumn = (column: Pick<Column, 'id'> & Partial<Column>) => {
+  patchColumn(column: Pick<Column, 'id'> & Partial<Column>) {
     const columns = this.getFromLS<Columns>(COLUMNS_LS_KEY) || {};
     if (!columns[column.id]) {
       console.error(`patchColumn ${column.id} not found`);
@@ -138,9 +143,9 @@ export class ApiLocalStorageService implements Api {
     columns[column.id] = { ...columns[column.id], ...column };
     this.saveToLS(COLUMNS_LS_KEY, columns);
     this.columnsSubject.next(columns);
-  };
+  }
 
-  patchItem = (item: Pick<Item, 'id'> & Partial<Item>) => {
+  patchItem(item: Pick<Item, 'id'> & Partial<Item>) {
     const items = this.getFromLS<Items>(ITEMS_LS_KEY) || {};
     if (!items[item.id]) {
       console.error(`patchItem ${item.id} not found`);
@@ -149,11 +154,9 @@ export class ApiLocalStorageService implements Api {
     items[item.id] = { ...items[item.id], ...item };
     this.saveToLS(ITEMS_LS_KEY, items);
     this.itemsSubject.next(items);
-  };
+  }
 
-  patchDetails = (
-    details: Pick<ItemDetails, 'itemId'> & Partial<ItemDetails>,
-  ) => {
+  patchDetails(details: Pick<ItemDetails, 'itemId'> & Partial<ItemDetails>) {
     const itemsDetails =
       this.getFromLS<ItemsDetails>(ITEMS_DETAILS_LS_KEY) || {};
     itemsDetails[details.itemId] = {
@@ -165,9 +168,9 @@ export class ApiLocalStorageService implements Api {
       ...itemsDetails[details.itemId],
       ...details,
     });
-  };
+  }
 
-  deleteBoard = (boardId: Board['id']) => {
+  deleteBoard(boardId: Board['id']) {
     const board = (this.getFromLS<Boards>(BOARDS_LS_KEY) || {})[boardId];
     if (!board) {
       console.error(`deleteBoard ${boardId} not found`);
@@ -193,9 +196,9 @@ export class ApiLocalStorageService implements Api {
     delete boards[board.id];
     this.saveToLS(BOARDS_LS_KEY, boards);
     this.boardsSubject.next(boards);
-  };
+  }
 
-  deleteColumn = (columnId: Column['id']) => {
+  deleteColumn(columnId: Column['id']) {
     const column = (this.getFromLS<Columns>(COLUMNS_LS_KEY) || {})[columnId];
     if (!column) {
       console.error(`deleteColumn ${columnId} not found`);
@@ -226,9 +229,9 @@ export class ApiLocalStorageService implements Api {
     delete columns[column.id];
     this.saveToLS(COLUMNS_LS_KEY, columns);
     this.columnsSubject.next(columns);
-  };
+  }
 
-  deleteItem = (itemId: Item['id']) => {
+  deleteItem(itemId: Item['id']) {
     const item = (this.getFromLS<Items>(ITEMS_LS_KEY) || {})[itemId];
     if (!item) {
       console.error(`deleteItem ${itemId} not found`);
@@ -263,7 +266,7 @@ export class ApiLocalStorageService implements Api {
     delete items[itemId];
     this.saveToLS(ITEMS_LS_KEY, items);
     this.itemsSubject.next(items);
-  };
+  }
 
   private loadEntry<T>(
     lsKey: string,
