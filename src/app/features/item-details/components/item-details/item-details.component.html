@@ -1,17 +1,17 @@
-<div class="mt-6 flex w-full justify-center min-h-dvh">
+<div *ngIf="itemDetails$ | async as item" class="mt-6 flex w-full justify-center min-h-dvh">
   <div class="mt-16 ml-4 flex flex-col w-5/6 gap-2.5 h-[calc(100dvh-120px)] shadow-2xl p-6 rounded-md bg-white">
     <input
       type="text"
       class="p-2 shadow-lg"
       placeholder="Item Name"
-      [(ngModel)]="title"
-      (ngModelChange)="patchItem($event)"
+      [(ngModel)]="item.title"
+      (ngModelChange)="patchItem({id: item.id, title: $event})"
     >
     <textarea
       class="p-2 h-full shadow-2xl"
       placeholder="Details"
-      [(ngModel)]="details"
-      (ngModelChange)="patchItemDetails($event)"
+      [(ngModel)]="item.details"
+      (ngModelChange)="patchItemDetails({id: item.id, details: $event})"
     ></textarea>
   </div>
 </div>

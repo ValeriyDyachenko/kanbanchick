@@ -40,6 +40,8 @@ export class ApiLocalStorageService implements Api {
   public readonly boards$ = this.boardsSubject.asObservable();
   public readonly columns$ = this.columnsSubject.asObservable();
   public readonly items$ = this.itemsSubject.asObservable();
+
+  // for view, it's combine 'item data' and 'item details data', but store it separately
   public readonly itemDetails$ = this.itemDetailsSubject.asObservable();
 
   loadKanbanData() {
@@ -55,9 +57,14 @@ export class ApiLocalStorageService implements Api {
 
   loadItemDetails(itemId: Item['id']) {
     this.loadEntry(ITEMS_LS_KEY, this.itemsSubject, DEFAULT_ITEMS);
-    this.itemDetailsSubject.next(
-      this.getFromLS<ItemsDetails>(ITEMS_DETAILS_LS_KEY)?.[itemId] || null,
-    );
+    const item = this.getFromLS<Items>(ITEMS_LS_KEY)?.[itemId];
+
+    const itemDetails =
+      this.getFromLS<ItemsDetails>(ITEMS_DETAILS_LS_KEY)?.[itemId];
+
+    item
+      ? this.itemDetailsSubject.next({ details: '', ...item, ...itemDetails })
+      : this.itemDetailsSubject.next(null);
   }
 
   addBoard(
@@ -113,7 +120,7 @@ export class ApiLocalStorageService implements Api {
   addDetails(details: ItemDetails) {
     const itemsDetails =
       this.getFromLS<ItemsDetails>(ITEMS_DETAILS_LS_KEY) || {};
-    itemsDetails[details.itemId] = details;
+    itemsDetails[details.id] = details;
     this.saveToLS(ITEMS_DETAILS_LS_KEY, itemsDetails);
     this.itemDetailsSubject.next(details);
   }
@@ -156,16 +163,18 @@ export class ApiLocalStorageService implements Api {
     this.itemsSubject.next(items);
   }
 
-  patchDetails(details: Pick<ItemDetails, 'itemId'> & Partial<ItemDetails>) {
+  patchDetails(details: Pick<ItemDetails, 'id'> & Partial<ItemDetails>) {
     const itemsDetails =
       this.getFromLS<ItemsDetails>(ITEMS_DETAILS_LS_KEY) || {};
-    itemsDetails[details.itemId] = {
-      ...itemsDetails[details.itemId],
+    itemsDetails[details.id] = {
+      ...itemsDetails[details.id],
       ...details,
     };
     this.saveToLS(ITEMS_DETAILS_LS_KEY, itemsDetails);
+    const item = this.getFromLS<Items>(ITEMS_LS_KEY)?.[details.id];
     this.itemDetailsSubject.next({
-      ...itemsDetails[details.itemId],
+      ...item,
+      ...itemsDetails[details.id],
       ...details,
     });
   }
@@ -258,8 +267,8 @@ export class ApiLocalStorageService implements Api {
       this.getFromLS<ItemsDetails>(ITEMS_DETAILS_LS_KEY) || {};
     delete itemDetails[itemId];
     this.saveToLS(ITEMS_DETAILS_LS_KEY, itemDetails);
-    if (this.itemDetailsSubject.getValue()?.itemId === itemId) {
-      this.itemDetailsSubject.next({ itemId: itemId, details: '' });
+    if (this.itemDetailsSubject.getValue()?.id === itemId) {
+      this.itemDetailsSubject.next(null);
     }
 
     const items = this.getFromLS<Items>(ITEMS_LS_KEY) || {};

@@ -19,7 +19,7 @@ export interface Api {
   patchBoard: ApiCall<Pick<Board, 'id'> & Partial<Board>>;
   patchColumn: ApiCall<Pick<Column, 'id'> & Partial<Column>>;
   patchItem: ApiCall<Pick<Item, 'id'> & Partial<Item>>;
-  patchDetails: ApiCall<Pick<ItemDetails, 'itemId'> & Partial<ItemDetails>>;
+  patchDetails: ApiCall<Pick<ItemDetails, 'id'> & Partial<ItemDetails>>;
 
   deleteBoard: ApiCall<Board['id']>;
   deleteColumn: ApiCall<Column['id']>;
@@ -49,10 +49,8 @@ export interface Item {
   title: string;
 }
 
-export interface ItemDetails {
-  itemId: string;
-  details: string;
-}
+// ItemDetails id and Item id are equal
+export type ItemDetails = { id: Item['id']; details: string } & Item;
 
 type ApiCall<Arg1, Arg2 = void> = Arg2 extends void
   ? (arg1: Arg1) => void
