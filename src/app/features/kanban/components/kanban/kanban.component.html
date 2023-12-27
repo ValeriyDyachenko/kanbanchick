@@ -1,8 +1,8 @@
 <div
-  *ngIf="kanbanService.boardsIds$ | async as boardIds"
+  *ngIf="apiDataService.boardsIds$ | async as boardIds"
   class="flex flex-col gap-5 p-2.5 pt-28 min-h-dvh bg-gradient-to-r from-violet-500 to-fuchsia-500"
   cdkDropList
-  (cdkDropListDropped)="dragDropService.drop($event)"
+  (cdkDropListDropped)="drop($event)"
   [cdkDropListData]="boardIds"
 >
   <app-board

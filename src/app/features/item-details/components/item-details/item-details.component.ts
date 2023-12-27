@@ -21,21 +21,21 @@ export class ItemDetailsComponent implements OnInit, OnDestroy {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    public kanbanService: ApiLocalStorageService,
+    public apiDataService: ApiLocalStorageService,
   ) {}
 
   patchItem(title: string) {
     if (!this.itemId) {
       return;
     }
-    this.kanbanService.patchItem({ id: this.itemId, title });
+    this.apiDataService.patchItem({ id: this.itemId, title });
   }
 
   patchItemDetails(details: string) {
     if (!this.itemId) {
       return;
     }
-    this.kanbanService.patchDetails({ itemId: this.itemId, details });
+    this.apiDataService.patchDetails({ itemId: this.itemId, details });
   }
 
   ngOnInit() {
@@ -48,13 +48,13 @@ export class ItemDetailsComponent implements OnInit, OnDestroy {
               () => new Error('Item ID not found in route parameters'),
             );
           }
-          this.kanbanService.loadItemDetails(itemId);
-          return this.kanbanService.itemDetails$.pipe(
+          this.apiDataService.loadItemDetails(itemId);
+          return this.apiDataService.itemDetails$.pipe(
             map((details) => ({ itemId, details })),
           );
         }),
         switchMap(({ itemId, details }) =>
-          this.kanbanService.items$.pipe(
+          this.apiDataService.items$.pipe(
             map((items) => {
               const item = items[itemId];
               if (!item) {

@@ -9,7 +9,7 @@ import { ApiLocalStorageService } from '~/shared/services/api-local-storage.serv
   templateUrl: './add-board-button.component.html',
 })
 export class AddBoardButtonComponent {
-  constructor(private kanbanService: ApiLocalStorageService) {}
+  constructor(private apiDataService: ApiLocalStorageService) {}
   addBoard() {
     const item = {
       id: `item_${uuidv4()}`,
@@ -25,8 +25,8 @@ export class AddBoardButtonComponent {
       columnsIds: [],
       title: '',
     };
-    this.kanbanService.addBoard(board);
-    this.kanbanService.addColumn(board.id, column);
-    this.kanbanService.addItem(column.id, item);
+    this.apiDataService.addBoard(board);
+    this.apiDataService.addColumn(board.id, column);
+    this.apiDataService.addItem(column.id, item);
   }
 }

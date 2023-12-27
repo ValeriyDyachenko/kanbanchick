@@ -1,6 +1,10 @@
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ApiLocalStorageService } from '~/shared/services/api-local-storage.service';
-import { DragDropService } from '~/shared/services/drag-drop.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -9,12 +13,26 @@ import { DragDropService } from '~/shared/services/drag-drop.service';
   styleUrls: ['./kanban.component.css'],
 })
 export class KanbanComponent implements OnInit {
-  constructor(
-    public dragDropService: DragDropService,
-    public kanbanService: ApiLocalStorageService,
-  ) {}
+  constructor(public apiDataService: ApiLocalStorageService) {}
 
   ngOnInit() {
-    this.kanbanService.loadKanbanData();
+    this.apiDataService.loadKanbanData();
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    }
   }
 }

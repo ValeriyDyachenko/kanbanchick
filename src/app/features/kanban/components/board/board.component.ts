@@ -1,15 +1,17 @@
 import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
+import {
   ChangeDetectionStrategy,
   Component,
   Input,
   OnInit,
 } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
+import { Board } from '~/api/types';
 import { ApiLocalStorageService } from '~/shared/services/api-local-storage.service';
-import {
-  ColumnsInBoardDragDrop,
-  DragDropService,
-} from '~/shared/services/drag-drop.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -18,19 +20,36 @@ import {
   styleUrls: ['./board.component.css'],
 })
 export class BoardComponent implements OnInit {
-  @Input() boardId?: string;
-  columnsInBoardDragDrop?: Observable<ColumnsInBoardDragDrop | null>;
+  @Input() boardId!: string;
+  dragDropConnectedBoards$!: Observable<Board['id'][]>;
+  board$!: Observable<Board>;
 
-  constructor(
-    public kanbanService: ApiLocalStorageService,
-    public dragDropService: DragDropService,
-  ) {}
+  constructor(public apiDataService: ApiLocalStorageService) {}
 
   ngOnInit() {
-    if (!this.boardId) {
-      return;
+    this.dragDropConnectedBoards$ = this.apiDataService.boardsIds$.pipe(
+      map((ids) => ids.filter((id) => id !== this.boardId)),
+    );
+
+    this.board$ = this.apiDataService.boards$.pipe(
+      map((boards) => boards[this.boardId]),
+    );
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
     }
-    this.columnsInBoardDragDrop =
-      this.dragDropService.initColumnsInBoardDragDropSubscription(this.boardId);
   }
 }

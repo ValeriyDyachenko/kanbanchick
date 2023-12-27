@@ -1,7 +1,8 @@
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-item-details-page',
   templateUrl: './item-details-page.component.html',
 })

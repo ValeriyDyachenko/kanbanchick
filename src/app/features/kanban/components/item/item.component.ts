@@ -12,11 +12,11 @@ import { ApiLocalStorageService } from '~/shared/services/api-local-storage.serv
 export class ItemComponent {
   @Input() itemId?: string;
   constructor(
-    public kanbanService: ApiLocalStorageService,
+    public apiDataService: ApiLocalStorageService,
     public router: Router,
   ) {}
 
   getItemById(id: string) {
-    return this.kanbanService.items$.pipe(map((items) => items[id]));
+    return this.apiDataService.items$.pipe(map((items) => items[id]));
   }
 }

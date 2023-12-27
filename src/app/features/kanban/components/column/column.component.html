@@ -1,12 +1,13 @@
 <ng-container *ngIf="columnId">
+  <ng-container *ngIf="column$ | async as column">
   <div
     class="w-[414px] bg-gray-300 rounded p-4 shadow-lg"
-    *ngIf="itemsInsideColumnDragDrop | async as itemsInsideColumnDragDrop"
+    *ngIf="dragDropConnectedColumns$ | async as dragDropConnectedColumns"
     cdkDropList
-    (cdkDropListDropped)="dragDropService.drop($event)"
-    [cdkDropListData]="itemsInsideColumnDragDrop.column.itemsIds"
+    (cdkDropListDropped)="drop($event)"
+    [cdkDropListData]="column.itemsIds"
     [id]="columnId"
-    [cdkDropListConnectedTo]="itemsInsideColumnDragDrop.otherColumnIds"
+    [cdkDropListConnectedTo]="dragDropConnectedColumns"
   >
     <div
       class="h-9 flex mb-6 items-center w-full"
@@ -16,14 +17,14 @@
       <input
         class="text-center w-full bg-transparent"
         placeholder="Column Name"
-        [(ngModel)]="itemsInsideColumnDragDrop.column.title"
-        (ngModelChange)="kanbanService.patchColumn( {id: columnId, title: $event})"
+        [(ngModel)]="column.title"
+        (ngModelChange)="apiDataService.patchColumn( {id: columnId, title: $event})"
       />
-      <app-remove-button class="ml-4" (click)="kanbanService.deleteColumn(columnId)"></app-remove-button>
+      <app-remove-button class="ml-4" (click)="apiDataService.deleteColumn(columnId)"></app-remove-button>
     </div>
-    <app-add-item-button [columnId]="columnId" (addItem)="kanbanService.addItem($event)"></app-add-item-button>
+    <app-add-item-button [columnId]="columnId" (addItem)="apiDataService.addItem($event)"></app-add-item-button>
     <div class="mt-4">
-      <app-item class="flex" cdkDrag *ngFor="let itemId of itemsInsideColumnDragDrop.column.itemsIds" [itemId]="itemId">
+      <app-item class="flex" cdkDrag *ngFor="let itemId of column.itemsIds" [itemId]="itemId">
         <div cdkDragHandle>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 mr-2 text-gray-500 cursor-grab">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
@@ -32,4 +33,5 @@
       </app-item>
     </div>
   </div>
+  </ng-container>
 </ng-container>

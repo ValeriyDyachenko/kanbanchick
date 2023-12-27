@@ -11,7 +11,7 @@ import { ItemComponent } from '~/features/kanban/components/item/item.component'
 import { KanbanComponent } from '~/features/kanban/components/kanban/kanban.component';
 import { RemoveButtonComponent } from '~/features/kanban/components/remove-button/remove-button.component';
 import { KanbanRoutingModule } from '~/features/kanban/kanban-routing.module';
-import { KanbanPageComponent } from '~/features/kanban/pages/kanban-page.component';
+import { KanbanPageComponent } from '~/features/kanban/pages/kanban-page/kanban-page.component';
 import { SharedModule } from '~/shared/shared.module';
 
 @NgModule({
