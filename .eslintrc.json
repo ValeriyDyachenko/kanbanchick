@@ -70,7 +70,31 @@
       "extends": [
         "plugin:@angular-eslint/template/recommended"
       ],
-      "rules": {}
+      "rules": {
+        "prettier/prettier": ["error",
+          {
+            "htmlWhitespaceSensitivity": "ignore",
+            "printWidth": 120,
+            "tabWidth": 2,
+            "useTabs": false,
+            "semi": true,
+            "singleQuote": true,
+            "bracketSpacing": true,
+            "jsxBracketSameLine": false,
+            "arrowParens": "avoid",
+            "proseWrap": "preserve",
+            "overrides": [
+              {
+                "files": "*.html",
+                "options": {
+                  "parser": "angular",
+                  "htmlWhitespaceSensitivity": "strict"
+                }
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

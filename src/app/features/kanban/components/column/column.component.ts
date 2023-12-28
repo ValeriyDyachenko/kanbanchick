@@ -21,7 +21,7 @@ export class ColumnComponent implements OnInit {
   dragDropConnectedColumns$!: Observable<Column['id'][]>;
   column$!: Observable<Column>;
 
-  constructor(public apiDataService: ApiLocalStorageService) {}
+  constructor(private apiDataService: ApiLocalStorageService) {}
 
   ngOnInit() {
     this.dragDropConnectedColumns$ = this.apiDataService.columns$.pipe(
@@ -34,7 +34,19 @@ export class ColumnComponent implements OnInit {
     );
   }
 
-  drop(event: CdkDragDrop<string[]>) {
+  updateTitle(title: string) {
+    this.apiDataService.patchColumn({ id: this.columnId, title });
+  }
+
+  addItem() {
+    this.apiDataService.addItem(this.columnId);
+  }
+
+  deleteColumn() {
+    this.apiDataService.deleteColumn(this.columnId);
+  }
+
+  dropColumn(event: CdkDragDrop<string[]>) {
     drop(
       event,
       (event) => {

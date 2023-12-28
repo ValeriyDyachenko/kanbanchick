@@ -10,15 +10,17 @@ import { drop } from '~/utils/drag-drop.utils';
   styleUrls: ['./kanban.component.css'],
 })
 export class KanbanComponent implements OnInit {
-  constructor(public apiDataService: ApiLocalStorageService) {}
+  readonly boardsIds$ = this.apiDataService.boardsIds$;
+
+  constructor(private apiDataService: ApiLocalStorageService) {}
 
   ngOnInit() {
     this.apiDataService.loadKanbanData();
   }
 
-  drop(event: CdkDragDrop<string[]>) {
+  dropBoard(event: CdkDragDrop<string[]>) {
     drop(event, (event) =>
-      this.apiDataService.patchBordersIds(event.container.data),
+      this.apiDataService.patchBoardsIds(event.container.data),
     );
   }
 }

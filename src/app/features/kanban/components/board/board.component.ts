@@ -21,7 +21,7 @@ export class BoardComponent implements OnInit {
   dragDropConnectedBoards$!: Observable<Board['id'][]>;
   board$!: Observable<Board>;
 
-  constructor(public apiDataService: ApiLocalStorageService) {}
+  constructor(private apiDataService: ApiLocalStorageService) {}
 
   ngOnInit() {
     this.dragDropConnectedBoards$ = this.apiDataService.boardsIds$.pipe(
@@ -33,7 +33,19 @@ export class BoardComponent implements OnInit {
     );
   }
 
-  drop(event: CdkDragDrop<string[]>) {
+  updateTitle(title: string) {
+    this.apiDataService.patchBoard({ id: this.boardId, title });
+  }
+
+  addColumn() {
+    this.apiDataService.addColumn(this.boardId);
+  }
+
+  deleteBoard() {
+    this.apiDataService.deleteBoard(this.boardId);
+  }
+
+  dropBoard(event: CdkDragDrop<string[]>) {
     drop(
       event,
       (event) => {

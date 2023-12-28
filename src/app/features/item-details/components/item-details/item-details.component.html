@@ -6,7 +6,7 @@
       placeholder="Item Name"
       [(ngModel)]="item.title"
       (ngModelChange)="patchItem({ id: item.id, title: $event })"
-    >
+    />
     <textarea
       class="p-2 h-full shadow-2xl"
       placeholder="Details"
@@ -15,5 +15,3 @@
     ></textarea>
   </div>
 </div>
-
-

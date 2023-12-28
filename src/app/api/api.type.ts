@@ -15,7 +15,7 @@ export interface Api {
   addItem: ApiCall<Column['id'], Item>;
   addDetails: ApiCall<ItemDetails>;
 
-  patchBordersIds: ApiCall<BoardsIds>;
+  patchBoardsIds: ApiCall<BoardsIds>;
   patchBoard: ApiCall<Pick<Board, 'id'> & Partial<Board>>;
   patchColumn: ApiCall<Pick<Column, 'id'> & Partial<Column>>;
   patchItem: ApiCall<Pick<Item, 'id'> & Partial<Item>>;

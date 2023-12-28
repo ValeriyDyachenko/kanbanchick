@@ -125,7 +125,7 @@ export class ApiLocalStorageService implements Api {
     this.itemDetailsSubject.next(details);
   }
 
-  patchBordersIds(boardsIds: BoardsIds) {
+  patchBoardsIds(boardsIds: BoardsIds) {
     this.saveToLS(BOARDS_IDS_LS_KEY, boardsIds);
     this.boardsIdsSubject.next(boardsIds);
   }
