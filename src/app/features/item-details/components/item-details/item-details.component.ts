@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { catchError, of, switchMap, throwError } from 'rxjs';
-import { Item } from '~/api/types';
+import { Item } from '~/api/api.type';
 import { ApiLocalStorageService } from '~/shared/services/api-local-storage.service';
 
 @Component({

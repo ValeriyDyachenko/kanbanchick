@@ -2,12 +2,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import {
-  DEFAULT_BOARDS,
-  DEFAULT_BOARDS_IDS,
-  DEFAULT_COLUMNS,
-  DEFAULT_ITEMS,
-} from '~/api/default-values';
-import {
   Api,
   Board,
   Boards,
@@ -18,7 +12,13 @@ import {
   BoardsIds,
   ItemDetails,
   Column,
-} from '~/api/types';
+} from '~/api/api.type';
+import {
+  DEFAULT_BOARDS,
+  DEFAULT_BOARDS_IDS,
+  DEFAULT_COLUMNS,
+  DEFAULT_ITEMS,
+} from '~/api/default-values';
 
 const BOARDS_IDS_LS_KEY = 'boardsIds';
 const BOARDS_LS_KEY = 'boards';

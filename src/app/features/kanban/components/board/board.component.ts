@@ -6,7 +6,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { Board } from '~/api/types';
+import { Board } from '~/api/api.type';
 import { ApiLocalStorageService } from '~/shared/services/api-local-storage.service';
 import { drop } from '~/utils/drag-drop.utils';
 

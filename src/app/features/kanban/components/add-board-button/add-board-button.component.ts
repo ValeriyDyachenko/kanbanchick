@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { v4 as uuidv4 } from 'uuid';
-import { Board } from '~/api/types';
+import { Board } from '~/api/api.type';
 import { ApiLocalStorageService } from '~/shared/services/api-local-storage.service';
 
 @Component({

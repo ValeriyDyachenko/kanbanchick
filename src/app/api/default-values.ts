@@ -1,4 +1,4 @@
-import { Boards, BoardsIds, Columns, Items } from '~/api/types';
+import { Boards, BoardsIds, Columns, Items } from '~/api/api.type';
 
 export const DEFAULT_BOARDS_IDS: BoardsIds = ['board1_1'];
 
