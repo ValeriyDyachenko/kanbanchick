@@ -5,13 +5,13 @@
       class="p-2 shadow-lg"
       placeholder="Item Name"
       [(ngModel)]="item.title"
-      (ngModelChange)="patchItem({id: item.id, title: $event})"
+      (ngModelChange)="patchItem({ id: item.id, title: $event })"
     >
     <textarea
       class="p-2 h-full shadow-2xl"
       placeholder="Details"
       [(ngModel)]="item.details"
-      (ngModelChange)="patchItemDetails({id: item.id, details: $event})"
+      (ngModelChange)="patchItemDetails({ id: item.id, details: $event })"
     ></textarea>
   </div>
 </div>

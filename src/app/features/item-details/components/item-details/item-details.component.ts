@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { catchError, of, switchMap, throwError } from 'rxjs';
+import { first } from 'rxjs';
 import { Item } from '~/api/api.type';
 import { ApiLocalStorageService } from '~/shared/services/api-local-storage.service';
 
@@ -10,27 +10,16 @@ import { ApiLocalStorageService } from '~/shared/services/api-local-storage.serv
   templateUrl: './item-details.component.html',
 })
 export class ItemDetailsComponent {
-  readonly itemDetails$ = this.activatedRoute.paramMap.pipe(
-    switchMap((params) => {
-      const itemId = params.get('id');
-      if (!itemId) {
-        return throwError(
-          () => new Error('Item ID not found in route parameters'),
-        );
-      }
-      this.apiDataService.loadItemDetails(itemId);
-      return this.apiDataService.itemDetails$;
-    }),
-    catchError((error) => {
-      console.error(error);
-      return of(null);
-    }),
-  );
+  readonly itemDetails$ = this.apiDataService.itemDetails$;
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    public apiDataService: ApiLocalStorageService,
-  ) {}
+    private apiDataService: ApiLocalStorageService,
+  ) {
+    this.activatedRoute.paramMap.pipe(first()).subscribe((params) => {
+      this.apiDataService.loadItemDetails(params.get('id') as string);
+    });
+  }
 
   patchItem({ id, title }: { id: Item['id']; title: string }) {
     this.apiDataService.patchItem({ id, title });
