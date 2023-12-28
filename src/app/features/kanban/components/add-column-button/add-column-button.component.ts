@@ -8,7 +8,7 @@ import {
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-add-column-button',
+  selector: 'app-add-column-button[boardId]',
   templateUrl: './add-column-button.component.html',
 })
 export class AddColumnButtonComponent {

@@ -1,14 +1,8 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-
-const noop = () => {
-  return undefined;
-};
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-remove-button',
+  selector: 'app-remove-button[click]',
   templateUrl: './remove-button.component.html',
 })
-export class RemoveButtonComponent {
-  @Input() onClick: () => void = noop;
-}
+export class RemoveButtonComponent {}

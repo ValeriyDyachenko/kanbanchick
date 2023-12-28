@@ -12,7 +12,7 @@ import { drop } from '~/utils/drag-drop.utils';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-column',
+  selector: 'app-column[columnId]',
   templateUrl: './column.component.html',
   styleUrls: ['./column.component.css'],
 })

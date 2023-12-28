@@ -5,7 +5,7 @@ import { ApiLocalStorageService } from '~/shared/services/api-local-storage.serv
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-item',
+  selector: 'app-item[itemId]',
   templateUrl: './item.component.html',
 })
 export class ItemComponent {

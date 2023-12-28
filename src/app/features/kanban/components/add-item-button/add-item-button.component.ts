@@ -8,7 +8,7 @@ import {
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-add-item-button',
+  selector: 'app-add-item-button[columnId]',
   templateUrl: './add-item-button.component.html',
 })
 export class AddItemButtonComponent {
