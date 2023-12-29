@@ -9,6 +9,7 @@ import { ApiLocalStorageService } from '~/shared/services/api-local-storage.serv
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-item[itemId]',
   templateUrl: './item.component.html',
+  styleUrls: ['./item.component.css'],
 })
 export class ItemComponent {
   @Input() itemId!: string;
