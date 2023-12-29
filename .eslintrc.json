@@ -1,0 +1,100 @@
+{
+  "root": true,
+  "ignorePatterns": [
+    "projects/**/*"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ],
+      "plugins": [
+        "import"
+      ],
+      "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "plugin:prettier/recommended"
+      ],
+      "rules": {
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": "app",
+            "style": "camelCase"
+          }
+        ],
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "app",
+            "style": "kebab-case"
+          }
+        ],
+        "import/order": ["error", {
+          "groups": ["builtin", "external", "parent", "sibling", "index"],
+          "pathGroups": [
+            {
+              "pattern": "~/**",
+              "group": "internal",
+              "position": "before"
+            },
+            {
+              "pattern": "./*",
+              "group": "parent",
+              "position": "after"
+            },
+            {
+              "pattern": "../*",
+              "group": "parent",
+              "position": "after"
+            }
+          ],
+          "pathGroupsExcludedImportTypes": ["builtin"],
+          "newlines-between": "never",
+          "alphabetize": {
+            "order": "asc",
+            "caseInsensitive": true
+          }
+        }]
+      }
+    },
+    {
+      "files": [
+        "*.html"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended"
+      ],
+      "rules": {
+        "prettier/prettier": ["error",
+          {
+            "htmlWhitespaceSensitivity": "ignore",
+            "printWidth": 120,
+            "tabWidth": 2,
+            "useTabs": false,
+            "semi": true,
+            "singleQuote": true,
+            "bracketSpacing": true,
+            "jsxBracketSameLine": false,
+            "arrowParens": "avoid",
+            "proseWrap": "preserve",
+            "overrides": [
+              {
+                "files": "*.html",
+                "options": {
+                  "parser": "angular",
+                  "htmlWhitespaceSensitivity": "strict"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+<ng-container *ngIf="boardId">
+  <ng-container *ngIf="board$ | async as board">
+    <div
+      *ngIf="dragDropConnectedBoards$ | async as dragDropConnectedBoards"
+      class="pt-6 px-6 pb-12 rounded w-fit bg-gray-200 shadow-xl"
+    >
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <!--icon for dragging board from kanban component-->
+          <ng-content select="[drag-area]"></ng-content>
+          <input
+            type="text"
+            class="mr-1 ml-1 p-2 rounded bg-gray-200 shadow-inner"
+            placeholder="Board Name"
+            [(ngModel)]="board.title"
+            (ngModelChange)="updateTitle($event)"
+          />
+          <app-add-column-button (click)="addColumn()"></app-add-column-button>
+        </div>
+        <app-remove-button class="mr-4 ml-16" (click)="deleteBoard()"></app-remove-button>
+      </div>
+
+      <div
+        class="flex gap-2.5 mt-6 min-h-16"
+        cdkDropList
+        cdkDropListOrientation="horizontal"
+        (cdkDropListDropped)="dropBoard($event)"
+        [cdkDropListData]="board.columnsIds"
+        [id]="board.id"
+        [cdkDropListConnectedTo]="dragDropConnectedBoards"
+      >
+        <app-column cdkDrag *ngFor="let columnId of board.columnsIds" [columnId]="columnId">
+          <div cdkDragHandle drag-area>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="h-7 w-7 mr-2 text-gray-500 cursor-grab"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z"
+              />
+            </svg>
+          </div>
+        </app-column>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>
